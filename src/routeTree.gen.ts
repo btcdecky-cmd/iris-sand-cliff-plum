@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
+import { Route as ApiRealtimeRouteImport } from './routes/api/realtime'
 import { Route as ApiAgentStatusRouteImport } from './routes/api/agent/status'
 import { Route as ApiAgentTurnRouteImport } from './routes/api/agent/turn'
+import { Route as ApiSandboxRunRouteImport } from './routes/api/sandbox/run'
+import { Route as ApiSandboxStatusRouteImport } from './routes/api/sandbox/status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
   path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRealtimeRoute = ApiRealtimeRouteImport.update({
+  id: '/api/realtime',
+  path: '/api/realtime',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAgentStatusRoute = ApiAgentStatusRouteImport.update({
@@ -34,39 +42,83 @@ const ApiAgentTurnRoute = ApiAgentTurnRouteImport.update({
   path: '/api/agent/turn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSandboxRunRoute = ApiSandboxRunRouteImport.update({
+  id: '/api/sandbox/run',
+  path: '/api/sandbox/run',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSandboxStatusRoute = ApiSandboxStatusRouteImport.update({
+  id: '/api/sandbox/status',
+  path: '/api/sandbox/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/workspace': typeof WorkspaceRoute
+  '/api/realtime': typeof ApiRealtimeRoute
   '/api/agent/status': typeof ApiAgentStatusRoute
   '/api/agent/turn': typeof ApiAgentTurnRoute
+  '/api/sandbox/run': typeof ApiSandboxRunRoute
+  '/api/sandbox/status': typeof ApiSandboxStatusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/workspace': typeof WorkspaceRoute
+  '/api/realtime': typeof ApiRealtimeRoute
   '/api/agent/status': typeof ApiAgentStatusRoute
   '/api/agent/turn': typeof ApiAgentTurnRoute
+  '/api/sandbox/run': typeof ApiSandboxRunRoute
+  '/api/sandbox/status': typeof ApiSandboxStatusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/workspace': typeof WorkspaceRoute
+  '/api/realtime': typeof ApiRealtimeRoute
   '/api/agent/status': typeof ApiAgentStatusRoute
   '/api/agent/turn': typeof ApiAgentTurnRoute
+  '/api/sandbox/run': typeof ApiSandboxRunRoute
+  '/api/sandbox/status': typeof ApiSandboxStatusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/workspace' | '/api/agent/status' | '/api/agent/turn'
+  fullPaths:
+    | '/'
+    | '/workspace'
+    | '/api/realtime'
+    | '/api/agent/status'
+    | '/api/agent/turn'
+    | '/api/sandbox/run'
+    | '/api/sandbox/status'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/workspace' | '/api/agent/status' | '/api/agent/turn'
-  id: '__root__' | '/' | '/workspace' | '/api/agent/status' | '/api/agent/turn'
+  to:
+    | '/'
+    | '/workspace'
+    | '/api/realtime'
+    | '/api/agent/status'
+    | '/api/agent/turn'
+    | '/api/sandbox/run'
+    | '/api/sandbox/status'
+  id:
+    | '__root__'
+    | '/'
+    | '/workspace'
+    | '/api/realtime'
+    | '/api/agent/status'
+    | '/api/agent/turn'
+    | '/api/sandbox/run'
+    | '/api/sandbox/status'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WorkspaceRoute: typeof WorkspaceRoute
+  ApiRealtimeRoute: typeof ApiRealtimeRoute
   ApiAgentStatusRoute: typeof ApiAgentStatusRoute
   ApiAgentTurnRoute: typeof ApiAgentTurnRoute
+  ApiSandboxRunRoute: typeof ApiSandboxRunRoute
+  ApiSandboxStatusRoute: typeof ApiSandboxStatusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspaceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/realtime': {
+      id: '/api/realtime'
+      path: '/api/realtime'
+      fullPath: '/api/realtime'
+      preLoaderRoute: typeof ApiRealtimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agent/status': {
       id: '/api/agent/status'
       path: '/api/agent/status'
@@ -99,14 +158,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAgentTurnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/sandbox/run': {
+      id: '/api/sandbox/run'
+      path: '/api/sandbox/run'
+      fullPath: '/api/sandbox/run'
+      preLoaderRoute: typeof ApiSandboxRunRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sandbox/status': {
+      id: '/api/sandbox/status'
+      path: '/api/sandbox/status'
+      fullPath: '/api/sandbox/status'
+      preLoaderRoute: typeof ApiSandboxStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WorkspaceRoute: WorkspaceRoute,
+  ApiRealtimeRoute: ApiRealtimeRoute,
   ApiAgentStatusRoute: ApiAgentStatusRoute,
   ApiAgentTurnRoute: ApiAgentTurnRoute,
+  ApiSandboxRunRoute: ApiSandboxRunRoute,
+  ApiSandboxStatusRoute: ApiSandboxStatusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
