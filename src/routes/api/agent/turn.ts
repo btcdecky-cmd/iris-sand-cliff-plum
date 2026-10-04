@@ -101,5 +101,8 @@ function parseTurn(body: unknown) {
     history: parsedHistory,
     model: typeof value.model === "string" ? value.model : undefined,
     groqKey: typeof value.groqKey === "string" ? value.groqKey : undefined,
+    memoryUserId: typeof value.projectId === "string" && value.projectId.trim()
+      ? `project:${value.projectId.trim().slice(0, 120)}`
+      : undefined,
   };
 }

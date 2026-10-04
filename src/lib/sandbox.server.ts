@@ -14,9 +14,15 @@ function safeCommand(command: string) {
 }
 
 export function sandboxStatus() {
+  const provider = (env("VIBEKIT_SANDBOX_PROVIDER") ?? "e2b").toLowerCase();
+  const sandboxKey = provider === "e2b" ? env("E2B_API_KEY") ?? env("VIBEKIT_SANDBOX_API_KEY") : undefined;
   return {
-    configured: Boolean(env("VIBEKIT_SANDBOX_API_KEY")),
-    provider: env("VIBEKIT_SANDBOX_PROVIDER") ?? "e2b",
+    configured: Boolean(sandboxKey && env("GROQ_API_KEY")),
+    provider,
+    missing: [
+      !sandboxKey ? `${provider.toUpperCase()}_API_KEY` : null,
+      !env("GROQ_API_KEY") ? "GROQ_API_KEY" : null,
+    ].filter((value): value is string => Boolean(value)),
   };
 }
 
@@ -30,24 +36,29 @@ export async function runSandboxCommand(input: SandboxRunInput) {
   );
 
   try {
-    const apiKey = env("VIBEKIT_SANDBOX_API_KEY");
-    if (!apiKey) throw new Error("VibeKit sandbox is not configured.");
-    const provider = (env("VIBEKIT_SANDBOX_PROVIDER") ?? "e2b") as "e2b" | "daytona" | "northflank";
+    const provider = (env("VIBEKIT_SANDBOX_PROVIDER") ?? "e2b").toLowerCase();
+    const apiKey = provider === "e2b" ? env("E2B_API_KEY") ?? env("VIBEKIT_SANDBOX_API_KEY") : undefined;
+    const groqKey = env("GROQ_API_KEY");
+    if (!apiKey || !groqKey) {
+      throw new Error(
+        `VibeKit sandbox is not configured. Required server variables: ${[
+          !apiKey ? `${provider.toUpperCase()}_API_KEY` : null,
+          !groqKey ? "GROQ_API_KEY" : null,
+        ].filter(Boolean).join(", ")}.`,
+      );
+    }
+    if (provider !== "e2b") {
+      throw new Error(`VibeKit provider ${provider} is not enabled in this build.`);
+    }
     const kit = new VibeKit()
       .withAgent({
         type: "opencode",
         provider: "groq",
-        apiKey: env("GROQ_API_KEY"),
+        apiKey: groqKey,
         model: env("GROQ_SANDBOX_MODEL") ?? "llama-3.3-70b-versatile",
       })
-      .withWorkingDirectory("/var/vibe0");
-
-    if (provider !== "e2b") {
-      throw new Error(`VibeKit provider ${provider} is not enabled in this build.`);
-    }
-    // The SDK resolves the configured sandbox provider at execution time. Keep
-    // the credential server-only and pass it through the SDK's secret channel.
-    kit.withSecrets({ E2B_API_KEY: apiKey });
+      .withWorkingDirectory("/var/vibe0")
+      .withSecrets({ E2B_API_KEY: apiKey, GROQ_API_KEY: groqKey });
 
     const result = await kit.executeCommand(command);
     await sql.query(
