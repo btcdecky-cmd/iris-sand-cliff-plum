@@ -37,7 +37,7 @@ export function mem0Status() {
 export async function searchMemories(userId: string, query: string, signal?: AbortSignal) {
   const value = config();
   if (!value || !query.trim()) return [];
-  const response = await fetch(`${value.baseUrl}/v2/memories/search/`, {
+  const response = await fetch(`${value.baseUrl}/v1/memories/search/`, {
     method: "POST",
     headers: headers(value),
     body: JSON.stringify({ query: query.slice(0, 2_000), user_id: userId, limit: 8 }),
@@ -51,7 +51,7 @@ export async function searchMemories(userId: string, query: string, signal?: Abo
 export async function addMemory(userId: string, messages: MemoryMessage[]) {
   const value = config();
   if (!value || messages.length === 0) return;
-  await fetch(`${value.baseUrl}/v3/memories/add/`, {
+  await fetch(`${value.baseUrl}/v1/memories/`, {
     method: "POST",
     headers: headers(value),
     body: JSON.stringify({

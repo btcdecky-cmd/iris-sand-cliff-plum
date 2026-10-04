@@ -423,9 +423,14 @@ function providerError(status: number, text: string) {
   } catch {
     parsed = null;
   }
+  const nestedMessage =
+    parsed?.error && typeof parsed.error === "object" && "message" in parsed.error
+      ? (parsed.error as { message?: unknown }).message
+      : undefined;
   const raw =
     (typeof parsed?.error === "string" && parsed.error) ||
     (typeof parsed?.message === "string" && parsed.message) ||
+    (typeof nestedMessage === "string" && nestedMessage) ||
     "";
   if (status === 401) return "The Groq API key was rejected. Check the key in Settings.";
   if (status === 429) return "The model is busy. Wait a moment and try again.";
@@ -484,7 +489,6 @@ export async function runAgentTurn(input: {
     : "";
   const messages: ChatMsg[] = [
     { role: "system", content: `${systemPrompt(input.mode)}${memoryContext}` },
-    { role: "system", content: systemPrompt(input.mode) },
     ...input.history.slice(-16).map((item) => ({
       role: item.role,
       content: item.content.slice(0, 12_000),
