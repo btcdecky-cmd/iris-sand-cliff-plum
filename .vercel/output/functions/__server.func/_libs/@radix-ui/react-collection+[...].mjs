@@ -1,6 +1,6 @@
 import { o as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
 import { u as require_react } from "../@floating-ui/react-dom+[...].mjs";
-//#region node_modules/react/cjs/react-jsx-runtime.production.js
+//#region node_modules/.pnpm/react@19.3.0/node_modules/react/cjs/react-jsx-runtime.production.js
 /**
 * @license React
 * react-jsx-runtime.production.js
@@ -35,12 +35,12 @@ var require_react_jsx_runtime_production = /* @__PURE__ */ __commonJSMin(((expor
 	exports.jsxs = jsxProd;
 }));
 //#endregion
-//#region node_modules/react/jsx-runtime.js
+//#region node_modules/.pnpm/react@19.3.0/node_modules/react/jsx-runtime.js
 var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 }));
 //#endregion
-//#region node_modules/@radix-ui/react-compose-refs/dist/index.mjs
+//#region node_modules/.pnpm/@radix-ui+react-compose-refs@1.1.5_@types+react@19.3.0_react@19.3.0/node_modules/@radix-ui/react-compose-refs/dist/index.mjs
 var import_jsx_runtime = require_jsx_runtime();
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var __defProp$3 = Object.defineProperty;
@@ -76,7 +76,7 @@ function useComposedRefs(...refs) {
 }
 __name$3(useComposedRefs, "useComposedRefs");
 //#endregion
-//#region node_modules/@radix-ui/react-context/dist/index.mjs
+//#region node_modules/.pnpm/@radix-ui+react-context@1.2.2_@types+react@19.3.0_react@19.3.0/node_modules/@radix-ui/react-context/dist/index.mjs
 var __defProp$2 = Object.defineProperty;
 var __name$2 = (target, value) => __defProp$2(target, "name", {
 	value,
@@ -178,7 +178,7 @@ function composeContextScopes(...scopes) {
 }
 __name$2(composeContextScopes, "composeContextScopes");
 //#endregion
-//#region node_modules/@radix-ui/react-slot/dist/index.mjs
+//#region node_modules/.pnpm/@radix-ui+react-slot@1.3.3_@types+react@19.3.0_react@19.3.0/node_modules/@radix-ui/react-slot/dist/index.mjs
 var __defProp$1 = Object.defineProperty;
 var __name$1 = (target, value) => __defProp$1(target, "name", {
 	value,
@@ -291,7 +291,7 @@ var createSlottableError = /* @__PURE__ */ __name$1((ownerName) => {
 }, "createSlottableError");
 var use = import_react[" use ".trim().toString()];
 //#endregion
-//#region node_modules/@radix-ui/react-collection/dist/index.mjs
+//#region node_modules/.pnpm/@radix-ui+react-collection@1.1.15_@types+react-dom@19.3.0_@types+react@19.3.0__@types+r_ed97e98f526881a1c9b799d335ea2adc/node_modules/@radix-ui/react-collection/dist/index.mjs
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", {
 	value,
