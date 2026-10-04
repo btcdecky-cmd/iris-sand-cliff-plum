@@ -14495,4 +14495,4 @@ var renderRouterToStream = async ({ request, router, responseHeaders, children }
 	}
 };
 //#endregion
-export { RouterProvider as a, lazyRouteComponent as c, useNavigate as d, useRouter as f, HeadContent as i, createFileRoute as l, defineHandlerCallback as n, createRouter as o, Scripts as r, Outlet as s, renderRouterToStream as t, createRootRoute as u };
+export { RouterProvider as a, lazyRouteComponent as c, useNavigate as d, useSearch as f, HeadContent as i, createFileRoute as l, defineHandlerCallback as n, createRouter as o, useRouter as p, Scripts as r, Outlet as s, renderRouterToStream as t, createRootRoute as u };
