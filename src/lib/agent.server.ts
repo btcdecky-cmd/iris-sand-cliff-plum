@@ -1,4 +1,5 @@
 import { env } from "@/lib/env.server";
+import { addMemory, searchMemories } from "@/lib/mem0.server";
 import { extractFencedFiles } from "@/lib/preview-html";
 import type { AgentEvent, AgentMode, ProjectFile } from "@/lib/types";
 
@@ -453,6 +454,7 @@ export async function runAgentTurn(input: {
   history: Array<{ role: "user" | "assistant"; content: string }>;
   model?: string;
   groqKey?: string;
+  memoryUserId?: string;
   signal: AbortSignal;
   emit: (event: AgentEvent) => void;
 }) {
@@ -475,7 +477,13 @@ export async function runAgentTurn(input: {
 
   let files = input.files.map((file) => ({ ...file }));
   const changed = new Set<string>();
+  const memoryUserId = input.memoryUserId || "adonabix-anonymous";
+  const memories = await searchMemories(memoryUserId, input.request, input.signal).catch(() => []);
+  const memoryContext = memories.length
+    ? `\nRelevant user preferences from memory:\n${memories.map((memory) => `- ${memory}`).join("\n")}`
+    : "";
   const messages: ChatMsg[] = [
+    { role: "system", content: `${systemPrompt(input.mode)}${memoryContext}` },
     { role: "system", content: systemPrompt(input.mode) },
     ...input.history.slice(-16).map((item) => ({
       role: item.role,
@@ -572,5 +580,9 @@ export async function runAgentTurn(input: {
         : assistantText.slice(0, 180) || "Turn complete.";
 
   input.emit({ type: "outcome", summary, filesChanged: [...changed] });
+  void addMemory(memoryUserId, [
+    { role: "user", content: input.request },
+    ...(assistantText ? [{ role: "assistant" as const, content: assistantText.slice(0, 8_000) }] : []),
+  ]);
   input.emit({ type: "done" });
 }
