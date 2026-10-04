@@ -41,9 +41,11 @@ export function HomePage() {
           <a href="#how" className="hidden hover:text-foreground sm:inline">
             How it works
           </a>
-          <Button size="sm" onClick={() => start("")}>
-            Open workspace
-            <ArrowRight className="size-3.5" />
+          <Button asChild size="sm">
+            <a href="/workspace">
+              Open workspace
+              <ArrowRight className="size-3.5" />
+            </a>
           </Button>
         </nav>
       </header>

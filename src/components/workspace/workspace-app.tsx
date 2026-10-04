@@ -68,8 +68,12 @@ export function WorkspaceApp({ initialPrompt }: { initialPrompt?: string }) {
 
   useEffect(() => {
     const finish = () => {
+      const state = useProjectStore.getState();
+      state.hydrate();
+      if (!state.active()) {
+        state.create("First site");
+      }
       useProjectStore.setState({ hasHydrated: true });
-      useProjectStore.getState().hydrate();
     };
     if (useProjectStore.persist.hasHydrated()) {
       finish();
