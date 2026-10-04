@@ -369,31 +369,46 @@ async function complete(opts: {
     body.tool_choice = "auto";
   }
 
-  const res = await fetch(`${opts.provider.baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${opts.provider.apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ...body,
-      messages: serializeMessages(opts.messages),
-    }),
-    signal: opts.signal,
-  });
+  const models =
+    opts.provider.kind === "groq"
+      ? [...new Set([opts.model, "llama-3.1-8b-instant"])]
+      : [opts.model];
+  let lastRateLimitText = "";
 
-  if (!res.ok) {
+  for (const model of models) {
+    const res = await fetch(`${opts.provider.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${opts.provider.apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...body,
+        model,
+        messages: serializeMessages(opts.messages),
+      }),
+      signal: opts.signal,
+    });
+
+    if (res.ok) {
+      const json = (await res.json()) as { choices?: GroqChoice[] };
+      const choice = json.choices?.[0];
+      return {
+        content: choice?.message?.content ?? "",
+        tool_calls: choice?.message?.tool_calls ?? [],
+        finish_reason: choice?.finish_reason ?? "stop",
+      };
+    }
+
     const text = await res.text().catch(() => "");
-    throw new Error(providerError(res.status, text));
+    if (res.status === 429 && model !== models[models.length - 1]) {
+      lastRateLimitText = text;
+      continue;
+    }
+    throw new Error(providerError(res.status, text || lastRateLimitText));
   }
 
-  const json = (await res.json()) as { choices?: GroqChoice[] };
-  const choice = json.choices?.[0];
-  return {
-    content: choice?.message?.content ?? "",
-    tool_calls: choice?.message?.tool_calls ?? [],
-    finish_reason: choice?.finish_reason ?? "stop",
-  };
+  throw new Error("The Groq models are temporarily unavailable. Please try again shortly.");
 }
 
 function serializeMessages(messages: ChatMsg[]) {
