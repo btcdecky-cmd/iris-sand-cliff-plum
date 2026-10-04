@@ -37,15 +37,21 @@ export function mem0Status() {
 export async function searchMemories(userId: string, query: string, signal?: AbortSignal) {
   const value = config();
   if (!value || !query.trim()) return [];
-  const response = await fetch(`${value.baseUrl}/v1/memories/search/`, {
-    method: "POST",
-    headers: headers(value),
-    body: JSON.stringify({ query: query.slice(0, 2_000), user_id: userId, limit: 8 }),
-    signal,
-  });
-  if (!response.ok) return [];
-  const json = (await response.json()) as { memories?: Array<{ memory?: string; score?: number }> };
-  return (json.memories ?? []).filter((item) => item.memory).map((item) => item.memory as string);
+
+  try {
+    const response = await fetch(`${value.baseUrl}/v1/memories/search/`, {
+      method: "POST",
+      headers: headers(value),
+      body: JSON.stringify({ query: query.slice(0, 2_000), user_id: userId, limit: 8 }),
+      signal,
+    });
+    if (!response.ok) return [];
+    const json = (await response.json()) as { memories?: Array<{ memory?: string; score?: number }> };
+    return (json.memories ?? []).filter((item) => item.memory).map((item) => item.memory as string);
+  } catch {
+    // Memory is an enhancement; a Mem0 outage must never take down a coding turn.
+    return [];
+  }
 }
 
 export async function addMemory(userId: string, messages: MemoryMessage[]) {
