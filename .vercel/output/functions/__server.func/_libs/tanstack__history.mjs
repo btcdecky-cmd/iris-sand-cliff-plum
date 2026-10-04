@@ -1,5 +1,5 @@
-//#region node_modules/@tanstack/history/dist/esm/index.js
-var stateIndexKey = "__TSR_index";
+//#region node_modules/.pnpm/@tanstack+history@1.162.4/node_modules/@tanstack/history/dist/esm/index.js
+var stateIndexKey$1 = "__TSR_index";
 var popStateEvent = "popstate";
 var beforeUnloadEvent = "beforeunload";
 /**
@@ -11,14 +11,14 @@ var beforeUnloadEvent = "beforeunload";
 * "/\evil.example" also need normalization. This only allocates when those
 * rules would make the input protocol-relative.
 */
-var protocolRelativePrefix = /^[\x00-\x20]*(?:[\\/][\t\n\r]*){2,}/;
-function normalizeProtocolRelative(url) {
-	const match = protocolRelativePrefix.exec(url);
+var protocolRelativePrefix$1 = /^[\x00-\x20]*(?:[\\/][\t\n\r]*){2,}/;
+function normalizeProtocolRelative$1(url) {
+	const match = protocolRelativePrefix$1.exec(url);
 	return match ? "/" + url.slice(match[0].length) : url;
 }
-function normalizeHref(href) {
+function normalizeHref$1(href) {
 	if (/[\x00-\x1f\x7f]/.test(href)) href = href.replace(/[\x00-\x1f\x7f]/g, (character) => "	\n\r".includes(character) ? "" : encodeURIComponent(character));
-	return normalizeProtocolRelative(href);
+	return normalizeProtocolRelative$1(href);
 }
 function createHistory(opts) {
 	let location = opts.getLocation();
@@ -42,7 +42,7 @@ function createHistory(opts) {
 		const blockers = opts.getBlockers?.() ?? [];
 		const isPushOrReplace = actionInfo.type === "PUSH" || actionInfo.type === "REPLACE";
 		if (typeof document !== "undefined" && blockers.length && isPushOrReplace) for (const blocker of blockers) {
-			const nextLocation = parseHref(actionInfo.path, actionInfo.state);
+			const nextLocation = parseHref$1(actionInfo.path, actionInfo.state);
 			if (await blocker.blockerFn({
 				currentLocation: location,
 				nextLocation,
@@ -69,7 +69,7 @@ function createHistory(opts) {
 			};
 		},
 		push: (path, state, navigateOpts) => {
-			const currentIndex = location.state[stateIndexKey];
+			const currentIndex = location.state[stateIndexKey$1];
 			state = assignKeyAndIndex(currentIndex + 1, state);
 			tryNavigation({
 				task: () => {
@@ -83,7 +83,7 @@ function createHistory(opts) {
 			});
 		},
 		replace: (path, state, navigateOpts) => {
-			const currentIndex = location.state[stateIndexKey];
+			const currentIndex = location.state[stateIndexKey$1];
 			state = assignKeyAndIndex(currentIndex, state);
 			tryNavigation({
 				task: () => {
@@ -129,7 +129,7 @@ function createHistory(opts) {
 				type: "FORWARD"
 			});
 		},
-		canGoBack: () => location.state[stateIndexKey] !== 0,
+		canGoBack: () => location.state[stateIndexKey$1] !== 0,
 		createHref: (str) => opts.createHref(str),
 		block: (blocker) => {
 			if (!opts.setBlockers) return () => {};
@@ -147,12 +147,12 @@ function createHistory(opts) {
 	};
 }
 function assignKeyAndIndex(index, state) {
-	const key = createRandomKey();
+	const key = createRandomKey$1();
 	return {
 		...state,
 		key,
 		__TSR_key: key,
-		[stateIndexKey]: index
+		[stateIndexKey$1]: index
 	};
 }
 /**
@@ -178,12 +178,12 @@ function createBrowserHistory(opts) {
 	let blockers = [];
 	const _getBlockers = () => blockers;
 	const _setBlockers = (newBlockers) => blockers = newBlockers;
-	const createHref = (path) => normalizeHref(opts?.createHref ? opts.createHref(path) : path);
-	const parseLocation = opts?.parseLocation ?? (() => parseHref(`${win.location.pathname}${win.location.search}${win.location.hash}`, win.history.state));
+	const createHref = (path) => normalizeHref$1(opts?.createHref ? opts.createHref(path) : path);
+	const parseLocation = opts?.parseLocation ?? (() => parseHref$1(`${win.location.pathname}${win.location.search}${win.location.hash}`, win.history.state));
 	if (!win.history.state?.__TSR_key && !win.history.state?.key) {
-		const addedKey = createRandomKey();
+		const addedKey = createRandomKey$1();
 		win.history.replaceState({
-			[stateIndexKey]: 0,
+			[stateIndexKey$1]: 0,
 			key: addedKey,
 			__TSR_key: addedKey
 		}, "");
@@ -208,7 +208,7 @@ function createBrowserHistory(opts) {
 		const href = opts?.createHref ? createHref(destHref) : void 0;
 		const hasPendingAction = !!next;
 		if (!hasPendingAction) rollbackLocation = currentLocation;
-		currentLocation = parseHref(destHref, state);
+		currentLocation = parseHref$1(destHref, state);
 		next = [
 			href ?? currentLocation.href,
 			state,
@@ -227,7 +227,7 @@ function createBrowserHistory(opts) {
 			return;
 		}
 		const nextLocation = parseLocation();
-		const delta = nextLocation.state[stateIndexKey] - currentLocation.state[stateIndexKey];
+		const delta = nextLocation.state[stateIndexKey$1] - currentLocation.state[stateIndexKey$1];
 		const isForward = delta === 1;
 		const isBack = delta === -1;
 		const isGo = !isForward && !isBack || nextPopIsGo;
@@ -342,6 +342,50 @@ function createBrowserHistory(opts) {
 	};
 	return history;
 }
+function parseHref$1(href, state) {
+	const sanitizedHref = normalizeHref$1(href);
+	const hashIndex = sanitizedHref.indexOf("#");
+	const searchIndex = sanitizedHref.indexOf("?");
+	if (!state) {
+		const key = createRandomKey$1();
+		state = {
+			[stateIndexKey$1]: 0,
+			key,
+			__TSR_key: key
+		};
+	}
+	return {
+		href: sanitizedHref,
+		pathname: sanitizedHref.substring(0, hashIndex > 0 ? searchIndex > 0 ? Math.min(hashIndex, searchIndex) : hashIndex : searchIndex > 0 ? searchIndex : sanitizedHref.length),
+		hash: hashIndex > -1 ? sanitizedHref.substring(hashIndex) : "",
+		search: searchIndex > -1 ? sanitizedHref.slice(searchIndex, hashIndex === -1 ? void 0 : hashIndex) : "",
+		state
+	};
+}
+function createRandomKey$1() {
+	return (Math.random() + 1).toString(36).substring(7);
+}
+//#endregion
+//#region node_modules/@tanstack/history/dist/esm/index.js
+var stateIndexKey = "__TSR_index";
+/**
+* Turn protocol-relative inputs such as "//evil.example" into paths
+* such as "/evil.example", keeping navigation on the current origin.
+*
+* For HTTP(S) URLs, WHATWG parsing ignores leading C0 controls and spaces,
+* removes tabs/newlines, and treats backslashes as slashes, so inputs like
+* "/\evil.example" also need normalization. This only allocates when those
+* rules would make the input protocol-relative.
+*/
+var protocolRelativePrefix = /^[\x00-\x20]*(?:[\\/][\t\n\r]*){2,}/;
+function normalizeProtocolRelative(url) {
+	const match = protocolRelativePrefix.exec(url);
+	return match ? "/" + url.slice(match[0].length) : url;
+}
+function normalizeHref(href) {
+	if (/[\x00-\x1f\x7f]/.test(href)) href = href.replace(/[\x00-\x1f\x7f]/g, (character) => "	\n\r".includes(character) ? "" : encodeURIComponent(character));
+	return normalizeProtocolRelative(href);
+}
 var noop = () => {};
 var ServerHistory = class {
 	constructor(location) {
@@ -405,4 +449,4 @@ function createRandomKey() {
 	return (Math.random() + 1).toString(36).substring(7);
 }
 //#endregion
-export { parseHref as i, createServerHistory as n, normalizeProtocolRelative as r, createBrowserHistory as t };
+export { parseHref$1 as i, createBrowserHistory as n, normalizeProtocolRelative$1 as r, createServerHistory as t };

@@ -1,5 +1,5 @@
 import { PassThrough, Readable } from "node:stream";
-//#region node_modules/srvx/dist/_chunks/_url.mjs
+//#region node_modules/.pnpm/srvx@0.11.22/node_modules/srvx/dist/_chunks/_url.mjs
 function lazyInherit(target, source, sourceKey) {
 	for (const key of [...Object.getOwnPropertyNames(source), ...Object.getOwnPropertySymbols(source)]) {
 		if (key === "constructor") continue;
@@ -134,7 +134,7 @@ var FastURL = /* @__PURE__ */ (() => {
 	return FastURL;
 })();
 //#endregion
-//#region node_modules/srvx/dist/adapters/node.mjs
+//#region node_modules/.pnpm/srvx@0.11.22/node_modules/srvx/dist/adapters/node.mjs
 var NodeResponse = /* @__PURE__ */ (() => {
 	const NativeResponse = globalThis.Response;
 	const STATUS_CODES = globalThis.process?.getBuiltinModule?.("node:http")?.STATUS_CODES || {};
@@ -245,13 +245,13 @@ var NodeResponse = /* @__PURE__ */ (() => {
 	return NodeResponse;
 })();
 //#endregion
-//#region node_modules/h3/node_modules/rou3/dist/index.mjs
+//#region node_modules/.pnpm/rou3@0.8.1/node_modules/rou3/dist/index.mjs
 var NullProtoObj = /* @__PURE__ */ (() => {
 	const e = function() {};
 	return e.prototype = Object.create(null), Object.freeze(e.prototype), e;
 })();
 //#endregion
-//#region node_modules/h3/dist/h3.mjs
+//#region node_modules/.pnpm/h3@2.0.1-rc.22_crossws@0.4.12_srvx@0.11.22_/node_modules/h3/dist/h3.mjs
 function decodePathname(pathname) {
 	return decodeURI(pathname.includes("%25") ? pathname.replace(/%25/g, "%2525") : pathname);
 }
@@ -651,4 +651,4 @@ var H3Core = class {
 	}
 };
 //#endregion
-export { toRequest as a, toEventHandler as i, HTTPError as n, NodeResponse as o, defineLazyEventHandler as r, FastURL as s, H3Core as t };
+export { toRequest as a, toEventHandler as i, HTTPError as n, NodeResponse as o, defineLazyEventHandler as r, H3Core as t };

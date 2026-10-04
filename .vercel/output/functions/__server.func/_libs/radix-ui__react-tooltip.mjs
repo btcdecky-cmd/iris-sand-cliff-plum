@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "./@floating-ui/react-dom+[...].mjs";
 import { a as createContextScope, i as createSlottable, s as require_jsx_runtime } from "./@radix-ui/react-collection+[...].mjs";
 import { c as createPopperScope } from "./@radix-ui/react-dropdown-menu+[...].mjs";
-//#region node_modules/@radix-ui/react-tooltip/dist/index.mjs
+//#region node_modules/.pnpm/@radix-ui+react-tooltip@1.2.16_@types+react-dom@19.3.0_@types+react@19.3.0__@types+reac_410793db862c85b741943c612cdfda62/node_modules/@radix-ui/react-tooltip/dist/index.mjs
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
