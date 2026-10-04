@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Adonabix",
+      "hasCanvas": false,
+      "bodyTextLen": 1199,
+      "bodyTextHash": "bd4ea7b90c408c99e5a1c79e05c2175177e2a4d86a64c43be24c19d837410c61",
+      "bodyTextPrefix": "Adonabix How it works Open workspace GROQ CODING AGENT Describe ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Adonabix",
+      "hasCanvas": false,
+      "bodyTextLen": 1054,
+      "bodyTextHash": "36b673e8cb6c3684496b0bbf893b6f365946372af729847f69287628a7d6b195",
+      "bodyTextPrefix": "Adonabix Open workspace GROQ CODING AGENT Describe the site. Wat",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

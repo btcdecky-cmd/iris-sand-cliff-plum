@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/workspace",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Adonabix",
+      "hasCanvas": false,
+      "bodyTextLen": 629,
+      "bodyTextHash": "8e815a8b710849f0192b921666bcecca1636c3d93aea3db0717c6cf3d322da21",
+      "bodyTextPrefix": "Adonabix First site Saved in this browser Add Groq key Agent Gro",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/workspace.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Adonabix",
+      "hasCanvas": false,
+      "bodyTextLen": 560,
+      "bodyTextHash": "98ccc325f0b973127f13c5cd7cbb841602fd53a38bec2dcc8732e25dfdc55846",
+      "bodyTextPrefix": "First site Add Groq key Agent Groq-powered coding partner Model ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/workspace-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/workspace.json"
+}
