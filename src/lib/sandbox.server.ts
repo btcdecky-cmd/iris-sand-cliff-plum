@@ -55,7 +55,7 @@ export async function runSandboxCommand(input: SandboxRunInput) {
         type: "opencode",
         provider: "groq",
         apiKey: groqKey,
-        model: env("GROQ_SANDBOX_MODEL") ?? "llama-3.3-70b-versatile",
+        model: env("GROQ_SANDBOX_MODEL") ?? "qwen/qwen3.8-27b",
       })
       .withWorkingDirectory("/var/vibe0")
       .withSecrets({ E2B_API_KEY: apiKey, GROQ_API_KEY: groqKey });

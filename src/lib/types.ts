@@ -2,7 +2,7 @@ export const AGENT_MODES = ["agent", "plan", "build", "edit", "debug"] as const;
 export type AgentMode = (typeof AGENT_MODES)[number];
 
 export const GROQ_MODELS = [
-  { id: "llama-3.3-70b-versatile", label: "Llama 3.3 70B", hint: "Best all-round" },
+  { id: "qwen/qwen3.8-27b", label: "Qwen 3.8 27B", hint: "Best all-round" },
   { id: "llama-3.1-8b-instant", label: "Llama 3.1 8B", hint: "Fastest" },
   { id: "openai/gpt-oss-120b", label: "GPT-OSS 120B", hint: "Long context" },
   { id: "moonshotai/kimi-k2-instruct", label: "Kimi K2", hint: "Coding" },
